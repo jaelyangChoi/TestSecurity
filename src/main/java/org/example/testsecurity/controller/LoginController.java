@@ -14,6 +14,6 @@ public class LoginController {
 
     @PostMapping("/loginProc")
     public String loginProc() {
-        return "";
+        return "main";
     }
 }
