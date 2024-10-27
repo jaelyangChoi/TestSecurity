@@ -21,8 +21,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/", "/login", "join", "joinProc").permitAll()
-                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/", "/login", "/loginProc","join", "joinProc").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated() //로그인한 사용자 접근 가능
         );
@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .permitAll()
         );
 
-        http.csrf((auth) -> auth.disable());
+//        http.csrf((auth) -> auth.disable());
 
         http.sessionManagement((auth) -> auth
                 .maximumSessions(1) //다중 로그인 허용 개수
