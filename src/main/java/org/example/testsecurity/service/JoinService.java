@@ -5,7 +5,6 @@ import org.example.testsecurity.Entity.UserEntity;
 import org.example.testsecurity.dto.JoinDTO;
 import org.example.testsecurity.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
