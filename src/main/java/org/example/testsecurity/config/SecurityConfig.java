@@ -3,6 +3,7 @@ package org.example.testsecurity.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,6 +33,7 @@ public class SecurityConfig {
                 .loginProcessingUrl("/loginProc")
                 .permitAll()
         );
+//        http.httpBasic(Customizer.withDefaults()); //form 로그인이 아니라 헤더에 사용자 정보를 넣는 방식
 
 //        http.csrf((auth) -> auth.disable());
 
