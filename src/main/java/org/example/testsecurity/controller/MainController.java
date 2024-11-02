@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collection;
 
@@ -25,6 +26,22 @@ public class MainController {
         model.addAttribute("id", id);
         model.addAttribute("role", role);
         return "main";
+    }
+
+    @GetMapping("/beforeForward")
+    public String beforeForward() {
+        return "forward:/afterForward";
+    }
+
+    @GetMapping("/beforeRedirect")
+    public String beforeFRedirect() {
+        return "redirect:/afterRedirect";
+    }
+
+    @GetMapping("/after")
+    @ResponseBody
+    public String after() {
+        return "after";
     }
 
 

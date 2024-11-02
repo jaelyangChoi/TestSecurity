@@ -1,6 +1,9 @@
 package org.example.testsecurity.config;
 
 
+import lombok.extern.slf4j.Slf4j;
+import org.example.testsecurity.filter.CustomGenericFilter;
+import org.example.testsecurity.filter.CustomOnceFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -10,7 +13,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -19,10 +24,25 @@ public class SecurityConfig {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder(); // 패스워드 단방향 암호화 진행 시 사용
     }
-    
+
     @Bean
+    public SecurityFilterChain filterChain0(HttpSecurity http) throws Exception {
+        http.
+                authorizeHttpRequests((auth) -> auth.anyRequest().permitAll());
+
+        http
+                .addFilterAfter(new CustomGenericFilter(), LogoutFilter.class);
+
+        http
+                .addFilterAfter(new CustomOnceFilter(), LogoutFilter.class);
+
+        return http.build();
+    }
+
+//    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+        log.info("########### Security Filter Chain 등록1!!!!!!!!!!!!");
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/", "/login", "/loginProc","join", "joinProc").permitAll()
                 .requestMatchers("/my/**").hasAnyRole("USER")
@@ -48,6 +68,7 @@ public class SecurityConfig {
                 .sessionFixation().changeSessionId() //세션 고정 보호
         );
 
+        log.info("########### Security Filter Chain 등록3!!!!!!!!!!!!");
         return http.build();
     }
 
